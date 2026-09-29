@@ -1,32 +1,104 @@
 # DOGFOOD 2026 — Integrated Hackathon Portal
 
-Self-hostable submission, judging, community voting, pairwise judging, and event-operations portal built with Next.js, FastAPI, SQLAlchemy, and SQLite.
+A self-hostable submission, judging, community voting, pairwise judging, and event-operations portal built with **Next.js, FastAPI, SQLAlchemy, and SQLite**.
 
-## One-command start
+---
+
+## 🚀 One-Command Start
+
+Start the complete application with:
 
 ```powershell
 docker compose up --build
 ```
 
-Open `http://localhost:3000`.
+Once the application is running, open:
 
-The backend is available at `http://localhost:8000` and FastAPI exposes its OpenAPI document at `/openapi.json` and interactive docs at `/docs`.
+```text
+Frontend: http://localhost:3000
+Backend:  http://localhost:8000
+```
 
-The compose stack uses a local SQLite volume, seeds from the organizer-provided `fixtures.json`, and does not require a hosted database, cloud account, external API, or network connectivity after dependencies have been built locally.
+FastAPI exposes:
 
-## Roles
+* OpenAPI document: `http://localhost:8000/openapi.json`
+* Interactive API documentation: `http://localhost:8000/docs`
 
-Participant: team formation, invite links, project drafts/editing, submissions, and community voting.
+The Compose stack uses a **local SQLite volume** and seeds the database from the organizer-provided `fixtures.json`.
 
-Judge: assigned project reviews, weighted rubric scoring, and pairwise comparisons for the optional ranking mode.
+The application does **not** require a hosted database, cloud account, external API, or network connectivity after dependencies have been built locally.
 
-Organizer: events, tracks, prizes, judges, assignments, rubric, results, normalization, integrity, community-voting policy, pairwise ranking, webhooks, exports, certificates, and signed judge records.
+---
 
-Admin: platform-level administration with the same backend enforcement boundary.
+# 👥 Roles
 
-## DOGFOOD acceptance workflow
+## Participant
 
-The official checker is committed at `run.py`, the official fixture file is at `fixtures.json`, and `.dogfood.toml` is committed at the repository root. The compose seed uses deterministic demo identities so the committed checker headers work on a fresh local database with the default compose secret.
+Participants can:
+
+* Form teams
+* Create and use invite links
+* Create and edit project drafts
+* Submit projects
+* Participate in community voting
+
+## Judge
+
+Judges can:
+
+* Review assigned projects
+* Use weighted rubric scoring
+* Perform pairwise comparisons for the optional ranking mode
+
+## Organizer
+
+Organizers can manage:
+
+* Events
+* Tracks
+* Prizes
+* Judges
+* Judge assignments
+* Rubrics
+* Results
+* Score normalization
+* Integrity
+* Community-voting policy
+* Pairwise ranking
+* Webhooks
+* Exports
+* Certificates
+* Signed judge records
+
+## Admin
+
+Admins provide platform-level administration with the **same backend enforcement boundary**.
+
+---
+
+# 🧪 DOGFOOD Acceptance Workflow
+
+The official checker is committed at:
+
+```text
+run.py
+```
+
+The official fixture file is:
+
+```text
+fixtures.json
+```
+
+The DOGFOOD configuration is committed at the repository root:
+
+```text
+.dogfood.toml
+```
+
+The Compose seed uses **deterministic demo identities**, allowing the committed checker headers to work on a fresh local database with the default Compose secret.
+
+### Run the acceptance checker
 
 After the portal is running:
 
@@ -34,59 +106,265 @@ After the portal is running:
 python run.py .dogfood.toml > acceptance-report.txt
 ```
 
-The checker is authoritative for the published T1/T2 acceptance checks; it does not inspect the frontend. Keep the report generated from the running portal and commit that exact output.
+The checker is authoritative for the published **T1/T2 acceptance checks**.
 
-## Implemented tier coverage
+> The checker does not inspect the frontend.
 
-### T1 — Core
+Keep the report generated from the running portal and commit that **exact output** as `acceptance-report.txt`.
 
-Authentication and JWT sessions, participant/judge/organizer/admin roles, event creation and date validation, tracks and prizes, team formation through invite links, draft/edit/submit projects, backend deadline enforcement, and public searchable gallery.
+---
 
-### T2 — Judging
+# 📋 Implemented Tier Coverage
 
-Judge invites, batch/algorithmic assignments, configurable weighted rubric, backend-enforced score isolation, judge progress, cross-judge normalization, integrity views, rank movement, and CSV export.
+## T1 — Core
 
-### T3 — Public
+The core tier includes:
 
-Configurable community voting window, comments, results hidden until voting closes, deterministic per-user randomized ballot ordering, authenticated voting, one-vote-per-project protection, per-account vote allowance, short-window address rate limiting, duplicate submission fingerprints, and audit records.
+* Authentication and JWT sessions
+* Participant, judge, organizer, and admin roles
+* Event creation and date validation
+* Tracks and prizes
+* Team formation through invite links
+* Draft, edit, and submit projects
+* Backend deadline enforcement
+* Public searchable gallery
 
-### T4 — Stretch
+---
 
-REST API/OpenAPI, event webhooks with HMAC signatures, printable judge certificates, signed Ed25519 judge participation records with a public verification key, embeddable gallery HTML, bulk project export, and CSV team import.
+## T2 — Judging
 
-## Bonus implementations
+The judging tier includes:
 
-Normalization Proof: the backend exposes raw score, normalized score, raw rank, normalized rank, rank change, judge-level normalization details, and an explicit normalization endpoint at `/api/normalization/proof`.
+* Judge invites
+* Batch/algorithmic assignments
+* Configurable weighted rubric
+* Backend-enforced score isolation
+* Judge progress
+* Cross-judge normalization
+* Integrity views
+* Rank movement
+* CSV export
 
-Pairwise Mode: judges can compare two assigned projects at `/api/pairwise/next` and submit preferences at `/api/pairwise/vote`; organizers recover a ranking with a Bradley-Terry MM estimator at `/api/pairwise/ranking`.
+---
 
-## Important integrity decisions
+## T3 — Public
 
-The backend is the authorization boundary. A hidden button is never treated as access control.
+The public tier includes:
 
-Community voting is intentionally account-based rather than anonymous so duplicate ballots can be rejected at the database constraint. A per-account allowance and short-window address rate limit provide additional anti-abuse controls. These controls reduce common abuse patterns but do not claim to prove real-world identity.
+* Configurable community voting window
+* Comments
+* Results hidden until voting closes
+* Deterministic per-user randomized ballot ordering
+* Authenticated voting
+* One-vote-per-project protection
+* Per-account vote allowance
+* Short-window address rate limiting
+* Duplicate submission fingerprints
+* Audit records
 
-Normalization is a documented statistical calibration choice, not an assertion that every judge has been made objectively equal. Judges with insufficient history or near-zero variance are handled conservatively.
+---
 
-Pairwise rankings are calculated independently of the rubric normalization path, so an organizer can compare the two methodologies instead of silently replacing one with the other.
+## T4 — Stretch
 
-## Demo accounts
+The stretch tier includes:
 
-- Organizer: `organizer@dogfood.local` / `Organizer123!`
-- Participant: `participant@dogfood.local` / `Participant123!`
-- Fixture judges: the seed command prints the first two judge identities and fresh local tokens.
+* REST API / OpenAPI
+* Event webhooks with HMAC signatures
+* Printable judge certificates
+* Signed Ed25519 judge participation records
+* Public verification key
+* Embeddable gallery HTML
+* Bulk project export
+* CSV team import
 
-## Submission files
+---
 
-- `.dogfood.toml`
-- `acceptance-report.txt`
-- `run.py`
-- `fixtures.json`
-- `SPEC.md`
-- `LICENSE`
-- `ARCHITECTURE.md`
-- `DATA-MODEL.md`
-- `JUDGING.md`
-- `THREAT-MODEL.md`
-- tests
-- `DEMO-SCRIPT.md` is included as the run-of-show; paste the final recording link here before submission
+# 🏆 Bonus Implementations
+
+## Normalization Proof
+
+The backend exposes:
+
+* Raw score
+* Normalized score
+* Raw rank
+* Normalized rank
+* Rank change
+* Judge-level normalization details
+
+An explicit normalization endpoint is available at:
+
+```text
+/api/normalization/proof
+```
+
+---
+
+## Pairwise Mode
+
+Judges can compare two assigned projects at:
+
+```text
+/api/pairwise/next
+```
+
+Judges submit their preferences at:
+
+```text
+/api/pairwise/vote
+```
+
+Organizers can recover a ranking using a **Bradley-Terry MM estimator** at:
+
+```text
+/api/pairwise/ranking
+```
+
+Pairwise judging is independent of the rubric normalization path, allowing organizers to compare the two methodologies rather than silently replacing one with the other.
+
+---
+
+# 🔐 Important Integrity Decisions
+
+## Backend Authorization Boundary
+
+The backend is the authorization boundary.
+
+A hidden button is **never treated as access control**.
+
+Frontend visibility does not determine whether an operation is authorized; authorization is enforced by the backend.
+
+---
+
+## Account-Based Community Voting
+
+Community voting is intentionally **account-based rather than anonymous** so duplicate ballots can be rejected at the database constraint.
+
+Additional controls include:
+
+* Per-account vote allowance
+* Short-window address rate limiting
+* Duplicate submission fingerprints
+* Audit records
+
+These controls reduce common abuse patterns but do **not** claim to prove real-world identity.
+
+---
+
+## Score Normalization
+
+Normalization is a documented **statistical calibration choice**.
+
+It is not an assertion that every judge has been made objectively equal.
+
+Judges with insufficient history or near-zero variance are handled conservatively.
+
+---
+
+## Independent Pairwise Rankings
+
+Pairwise rankings are calculated independently of the rubric normalization path.
+
+This allows an organizer to compare the two methodologies instead of silently replacing one with the other.
+
+---
+
+# 👤 Demo Accounts
+
+## Organizer
+
+```text
+Email:    organizer@dogfood.local
+Password: Organizer123!
+```
+
+## Participant
+
+```text
+Email:    participant@dogfood.local
+Password: Participant123!
+```
+
+## Fixture Judges
+
+The seed command prints the **first two judge identities and fresh local tokens**.
+
+---
+
+# 📁 Submission Files
+
+The repository contains the following submission and supporting files:
+
+```text
+.dogfood.toml
+acceptance-report.txt
+run.py
+fixtures.json
+SPEC.md
+LICENSE
+ARCHITECTURE.md
+DATA-MODEL.md
+JUDGING.md
+THREAT-MODEL.md
+tests
+DEMO-SCRIPT.md
+```
+
+`DEMO-SCRIPT.md` is included as the **run-of-show** for the project demonstration.
+
+Before submission, paste the **final recording link** into `DEMO-SCRIPT.md`.
+
+---
+
+# 🛠️ Local Workflow
+
+### 1. Start the portal
+
+```powershell
+docker compose up --build
+```
+
+### 2. Open the application
+
+```text
+http://localhost:3000
+```
+
+### 3. Access the backend
+
+```text
+http://localhost:8000
+```
+
+### 4. Access FastAPI documentation
+
+```text
+http://localhost:8000/docs
+```
+
+### 5. Run the DOGFOOD acceptance checker
+
+```powershell
+python run.py .dogfood.toml > acceptance-report.txt
+```
+
+The resulting `acceptance-report.txt` should be generated from the running portal and committed as the exact checker output.
+
+---
+
+# 📚 Project Documentation
+
+Additional project documentation is included in the repository:
+
+* `SPEC.md` — project specification
+* `ARCHITECTURE.md` — system architecture
+* `DATA-MODEL.md` — data model
+* `JUDGING.md` — judging system
+* `THREAT-MODEL.md` — threat model
+* `DEMO-SCRIPT.md` — demonstration run-of-show
+
+---
+
+## 📄 License
+
+See [`LICENSE`](LICENSE) for the project's licensing information.
