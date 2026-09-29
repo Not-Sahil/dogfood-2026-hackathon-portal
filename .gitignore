@@ -1,0 +1,28 @@
+# Python
+backend/__pycache__/
+backend/**/__pycache__/
+backend/.venv/
+backend/venv/
+backend/.pytest_cache/
+*.pyc
+
+# Local configuration
+backend/.env
+frontend/.env.local
+frontend/.env*.local
+
+# Database runtime files
+backend/*.db-shm
+backend/*.db-wal
+backend/data/
+
+# Node / Next
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/.vercel/
+
+# OS / logs
+.DS_Store
+Thumbs.db
+*.log

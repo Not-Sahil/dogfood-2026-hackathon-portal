@@ -1,0 +1,11 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+dogfood.db
+*.db-shm
+*.db-wal
+alembic/versions/*.py
+!alembic/versions/.gitkeep

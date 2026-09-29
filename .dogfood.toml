@@ -1,0 +1,19 @@
+[portal]
+base_url = "http://localhost:8000"
+
+[tiers]
+claimed = ["T1", "T2"]
+pitch = "Self-hostable submission, judging, community voting, pairwise judging, and event operations platform."
+
+[auth]
+organizer = "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwicm9sZSI6Im9yZ2FuaXplciIsImV4cCI6MjEwNjA2MDc1N30.rm6Y-D7mgFHzZrOI00wguQJL9a3UpSDW_nbpGQItK1U"
+judge_a = "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwicm9sZSI6Imp1ZGdlIiwiZXhwIjoyMTA2MDYwNzU3fQ.F1j6L_S0yWQ4wjZ_PzEpyMl4reQZaulhYumjAhEsQog"
+judge_b = "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0Iiwicm9sZSI6Imp1ZGdlIiwiZXhwIjoyMTA2MDYwNzU3fQ.TZGUAMAyKq_Y6M1z9srgUwmGPKjFeFngBZee1AqGfZQ"
+participant = "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwicm9sZSI6InBhcnRpY2lwYW50IiwiZXhwIjoyMTA2MDYwNzU3fQ.XXl2heSL2gU7p9WWWVRiA3fhnQThKf7GBB1VCfIMzSo"
+
+[routes]
+gallery = "/api/projects"
+submit = "/api/projects"
+judge_scores = "/api/judge/scores"
+peer_scores = "/api/judge/scores/1"
+csv_export = "/api/export.csv?event_id=1"

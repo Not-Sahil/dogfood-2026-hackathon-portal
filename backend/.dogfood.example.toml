@@ -1,0 +1,19 @@
+[portal]
+base_url = "http://localhost:8000"
+
+[tiers]
+claimed = ["T1", "T2"]
+pitch = "Self-hostable hackathon submission and transparent judging platform."
+
+[auth]
+organizer = "Authorization: Bearer PASTE_SEEDED_TOKEN_HERE"
+judge_a = "Authorization: Bearer PASTE_SEEDED_TOKEN_HERE"
+judge_b = "Authorization: Bearer PASTE_SEEDED_TOKEN_HERE"
+participant = "Authorization: Bearer PASTE_SEEDED_TOKEN_HERE"
+
+[routes]
+gallery = "/api/projects"
+submit = "/api/projects"
+judge_scores = "/api/judge/scores"
+peer_scores = "/api/judge/scores?judge_id=1"
+csv_export = "/api/export.csv?event_id=1"
